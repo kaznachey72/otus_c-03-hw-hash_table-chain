@@ -3,6 +3,6 @@ ex02: main.o word_counter.o
 main.o: main.c
 	gcc -Wall -Wextra -Wpedantic -std=c11 -c main.c -o main.o
 word_counter.o: word_counter.c
-	gcc -Wall -Wextra -Wpedantic -std=c11 -c -g word_counter.c -o word_counter.o
+	gcc -Wall -Wextra -Wpedantic -std=c11 -c word_counter.c -o word_counter.o
 clear:
 	rm ex03 *.o

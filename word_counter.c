@@ -10,6 +10,14 @@ struct item_t {
 }; 
 typedef struct item_t item_t;
 
+struct word_counter_t 
+{
+    size_t capacity;
+    item_t **items;
+};
+typedef struct word_counter_t word_counter_t;
+
+
 size_t hash(const char *word)
 {
     const unsigned char *str = (const unsigned char*)word;
@@ -17,16 +25,10 @@ size_t hash(const char *word)
     unsigned char c;
     while ((c = *str++)) {
         ret = ((ret << 5) + ret) + c; // (ret * 33) + c
-    }
+    }   
     return ret;
 }
 
-struct word_counter_t 
-{
-    size_t capacity;
-    item_t **items;
-};
-typedef struct word_counter_t word_counter_t;
 
 word_counter_t *word_counter_create(size_t capacity)
 {
@@ -44,12 +46,13 @@ word_counter_t *word_counter_create(size_t capacity)
 
 void word_counter_add(word_counter_t *wc, const char *word)
 {
+    size_t word_len = strlen(word);
     size_t index = hash(word) % wc->capacity;
     item_t *item = wc->items[index];
     item_t *last = NULL;
 
     while (item) {
-        if (strncmp(item->key, word, 256) == 0) {
+        if (strncmp(item->key, word, word_len) == 0) {
             item->value += 1;
             break;
         }
@@ -65,10 +68,9 @@ void word_counter_add(word_counter_t *wc, const char *word)
             wc->items[index] = item;
         }
         
-        size_t len = strlen(word);
-        item->key = (char*) malloc(len * sizeof(char) + 1);
-        strncpy(item->key, word, len);
-        item->key[len] = '\0';
+        item->key = (char*) malloc(word_len * sizeof(char) + 1);
+        strncpy(item->key, word, word_len);
+        item->key[word_len] = '\0';
         item->value = 1;
         item->next = NULL;
     }
