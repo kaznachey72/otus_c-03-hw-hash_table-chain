@@ -17,10 +17,10 @@ int main(int argc, char **argv)
 
     struct word_counter_t *wc = word_counter_create(100);
     {
-        const char sep[11] = " ,.!:;[]()";
+        const char sep[] = " ,.!:;[]()";
         char buff[256];
         while (!feof(fp)) {
-            if (fscanf(fp, "%s", buff) > 0) {
+            if (fscanf(fp, "%255s", buff) > 0) {
                 char *word = strtok(buff, sep);
                 while (word != NULL) {
                     word_counter_add(wc, word);
