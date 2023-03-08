@@ -1,4 +1,4 @@
-ex02: main.o word_counter.o
+ex03: main.o word_counter.o
 	gcc main.o word_counter.o -o ex03
 main.o: main.c
 	gcc -Wall -Wextra -Wpedantic -std=c11 -c main.c -o main.o
